@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#091a38">
+  <meta name="description" content="SecureBox — личный зашифрованный менеджер паролей.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self' https://*.supabase.co; font-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; upgrade-insecure-requests">
+  <title>SecureBox — мои пароли</title>
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./config.js" defer></script>
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <div class="ambient"></div>
+  <main class="shell">
+    <section class="welcome" id="welcome" aria-label="Вход в SecureBox">
+      <div class="welcome-art">
+        <div class="brand brand-large"><span class="brand-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="6" y="10" width="12" height="11" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M9 10V7a3 3 0 0 1 6 0v3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><span><b>SecureBox</b><small>Ваши данные. Только ваши.</small></span></div>
+        <div class="welcome-headline"><span class="eyebrow">ЛИЧНОЕ ПРОСТРАНСТВО</span><h1>Всё важное.<br><em>Под надёжным замком.</em></h1><p>Пароли, логины и заметки — в одном красивом пространстве. Шифрование происходит прямо на вашем устройстве.</p></div>
+        <div class="scenic-caption"><span class="caption-dot"></span> Только вы знаете мастер-пароль</div>
+      </div>
+      <div class="welcome-form-panel">
+        <div class="welcome-form-inner">
+          <div class="welcome-title"><h2 id="welcomeTitle">Добро пожаловать</h2><p id="welcomeSubtitle">Выберите, где будет храниться ваш сейф.</p></div>
+          <div class="mode-switch" role="group" aria-label="Способ хранения"><button class="mode-button active" type="button" data-mode="local" id="localModeButton">На этом устройстве</button><button class="mode-button" type="button" data-mode="cloud" id="cloudModeButton">Облако <span class="mini-cloud">☁</span></button></div>
+          <div id="modeHint" class="mode-hint">Локальный сейф зашифрован, но не синхронизируется между устройствами.</div>
+          <form id="cloudForm" class="form-stack hidden" autocomplete="on">
+            <label>E-mail<input id="email" type="email" autocomplete="username" required placeholder="you@example.com"></label>
+            <label>Пароль аккаунта<input id="accountPassword" type="password" autocomplete="current-password" required minlength="8" placeholder="Пароль входа в облако"></label>
+            <button class="primary-button" type="submit" id="cloudSignInButton">Войти в аккаунт</button>
+            <button class="text-button" type="button" id="cloudSignUpButton">Создать аккаунт</button>
+          </form>
+          <form id="unlockForm" class="form-stack" autocomplete="off">
+            <label id="masterLabel">Мастер-пароль<input id="masterPassword" type="password" autocomplete="off" required placeholder="Ваш главный секрет"></label>
+            <label id="masterConfirmLabel" class="hidden">Повторите мастер-пароль<input id="masterConfirm" type="password" autocomplete="off" placeholder="Ещё раз для проверки"></label>
+            <button class="primary-button" type="submit" id="unlockButton">Создать сейф</button>
+            <p class="security-note"><span aria-hidden="true">✧</span> Мастер-пароль нигде не сохраняется. Если забыть его, восстановить данные невозможно.</p>
+          </form>
+          <button class="text-button restore-button" type="button" id="restoreAtWelcome">Восстановить из зашифрованной резервной копии</button>
+          <input id="restoreFile" type="file" accept=".json,application/json" class="visually-hidden">
+          <button class="text-button hidden" type="button" id="backToCloud">← Назад ко входу</button>
+          <div class="setup-link">Для облачной синхронизации требуется настройка <b>Supabase</b>. <a href="./README.md" target="_blank" rel="noopener noreferrer">Инструкция</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="app hidden" id="appView" aria-label="Менеджер паролей">
+      <header class="app-header">
+        <div class="brand"><span class="brand-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="6" y="10" width="12" height="11" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M9 10V7a3 3 0 0 1 6 0v3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><span><b>SecureBox</b><small>Ваши данные. Только ваши.</small></span></div>
+        <div class="header-actions"><span class="sync-label" id="syncLabel">Локальный сейф</span><button class="icon-button" type="button" id="refreshButton" title="Обновить синхронизацию" aria-label="Обновить синхронизацию"><svg viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.6 9a7 7 0 0 1 12-2L20 12M4 12l2.4 5a7 7 0 0 0 12-2"/></svg></button><button class="icon-button" type="button" id="lockButton" title="Заблокировать" aria-label="Заблокировать"><svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></button><div class="avatar" aria-label="Ваш профиль">S</div></div>
+      </header>
+      <div class="app-content">
+        <div class="hero"><div class="hero-copy"><span class="eyebrow">ВАШ ЛИЧНЫЙ СЕЙФ</span><h1>Добро пожаловать!</h1><p>Все ваши пароли в одном безопасном месте.</p></div><div class="hero-stats"><span id="entriesStat">0</span><small>сохранённых записей</small></div></div>
+        <div class="search-row"><div class="search-wrap"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m16.3 16.3 4.7 4.7"/></svg><input id="searchInput" type="search" autocomplete="off" placeholder="Поиск по названию, логину, сайту..."></div><button class="secondary-button" type="button" id="generatorButton"><svg viewBox="0 0 24 24"><path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"/><path d="m19 17 .7 2.3L22 20l-2.3.7L19 23l-.7-2.3L16 20l2.3-.7L19 17Z"/></svg><span>Генератор</span></button></div>
+        <div class="categories" id="categories" role="group" aria-label="Категории паролей"></div>
+        <div class="section-heading"><div><h2 id="listTitle">Мои пароли</h2><p id="listSubtitle">Управляйте записями легко и быстро</p></div><div class="section-tools"><button class="quiet-button" id="settingsButton" type="button" title="Настройки"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2 2-.1-.1a1.7 1.7 0 0 0-1.9-.3l-.2.1V21h-3v-.2a1.7 1.7 0 0 0-1.1-1.6l-.2-.1-1.8 1-1.5-2.6.2-.1a1.7 1.7 0 0 0 .8-1.7v-.2L6 14v-3l2.2-1.2v-.2a1.7 1.7 0 0 0-.8-1.7l-.2-.1L8.7 5l1.8 1 .2-.1A1.7 1.7 0 0 0 11.8 4v-.2h3V4a1.7 1.7 0 0 0 1.1 1.6l.2.1 1.8-1L19.4 7l-.2.1a1.7 1.7 0 0 0-.8 1.7V9l2.2 1.2v3l-2.2 1.2v.6Z"/></svg> Настройки</button><button class="primary-button add-button" type="button" id="addButton"><span class="plus-sign">+</span> Добавить пароль</button></div></div>
+        <div class="entries" id="entries" aria-live="polite"></div>
+        <div class="empty hidden" id="emptyState"><div class="empty-art">✧</div><h3>Пока здесь пусто</h3><p id="emptyText">Добавьте первый пароль — он будет надёжно зашифрован.</p><button class="primary-button" id="emptyAddButton" type="button">+ Добавить пароль</button></div>
+        <footer class="app-footer"><span>✦ SecureBox</span><span>Шифрование AES-256-GCM · Ваш мастер-пароль не отправляется в облако</span></footer>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal-backdrop hidden" id="entryModal" role="presentation"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="entryModalTitle"><div class="modal-header"><div><span class="eyebrow">ЗАПИСЬ СЕЙФА</span><h2 id="entryModalTitle">Новый пароль</h2></div><button class="close-button" type="button" data-close="entryModal" aria-label="Закрыть">×</button></div><form id="entryForm" class="form-stack" autocomplete="off"><input type="hidden" id="entryId"><label>Название<input id="entryName" maxlength="100" required placeholder="Например, GitHub"></label><div class="two-col"><label>Логин / e-mail<input id="entryLogin" maxlength="200" placeholder="name@example.com"></label><label>Категория<select id="entryCategory"><option>Соцсети</option><option>Почта</option><option selected>Работа</option><option>Финансы</option><option>Развлечения</option><option>Другое</option></select></label></div><label>Пароль<div class="password-field"><input type="password" id="entryPassword" autocomplete="off" maxlength="4096" required placeholder="Ваш пароль"><button type="button" class="password-field-button" id="toggleEntryPassword" aria-label="Показать или скрыть пароль">◉</button><button type="button" class="password-field-button" id="fillGenerated" title="Сгенерировать пароль" aria-label="Сгенерировать пароль">✦</button></div></label><label>Сайт (необязательно)<input id="entryUrl" type="url" maxlength="500" placeholder="https://example.com"></label><label>Заметка (необязательно)<textarea id="entryNote" maxlength="2000" rows="3" placeholder="Подсказка, особенности входа..."></textarea></label><div class="modal-actions"><button class="secondary-button" type="button" data-close="entryModal">Отмена</button><button class="primary-button" type="submit" id="saveEntryButton">Сохранить</button></div></form></section></div>
+
+  <div class="modal-backdrop hidden" id="generatorModal" role="presentation"><section class="modal modal-small" role="dialog" aria-modal="true" aria-labelledby="generatorTitle"><div class="modal-header"><div><span class="eyebrow">БЕЗОПАСНОСТЬ</span><h2 id="generatorTitle">Генератор паролей</h2></div><button class="close-button" type="button" data-close="generatorModal" aria-label="Закрыть">×</button></div><div class="generated-result"><output id="generatedPassword">••••••••••••••••</output><button class="icon-button" type="button" id="copyGenerated" title="Скопировать" aria-label="Скопировать"><svg viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg></button></div><div class="range-title"><label for="generatorLength">Длина пароля</label><b id="lengthValue">20</b></div><input type="range" id="generatorLength" min="12" max="64" value="20"><div class="checkbox-grid"><label><input id="genUpper" type="checkbox" checked> A–Z</label><label><input id="genLower" type="checkbox" checked> a–z</label><label><input id="genDigits" type="checkbox" checked> 0–9</label><label><input id="genSymbols" type="checkbox" checked> !@#$%</label></div><button class="primary-button wide" type="button" id="regenerateButton">↻ Сгенерировать</button></section></div>
+
+  <div class="modal-backdrop hidden" id="settingsModal" role="presentation"><section class="modal modal-small" role="dialog" aria-modal="true" aria-labelledby="settingsTitle"><div class="modal-header"><div><span class="eyebrow">УПРАВЛЕНИЕ</span><h2 id="settingsTitle">Настройки сейфа</h2></div><button class="close-button" type="button" data-close="settingsModal" aria-label="Закрыть">×</button></div><div class="settings-stack"><div class="setting-item"><div><b>Резервная копия</b><small>Скачать только зашифрованные данные в JSON</small></div><button class="secondary-button" id="exportButton" type="button">Экспорт</button></div><div class="setting-item"><div><b>Восстановление</b><small>Импорт заменит текущий сейф содержимым копии</small></div><button class="secondary-button" id="importButton" type="button">Импорт</button><input id="importFile" type="file" accept=".json,application/json" class="visually-hidden"></div><div class="setting-item"><div><b>Автоблокировка</b><small>Через 5 минут бездействия</small></div><span class="setting-ok">Включена</span></div><div class="setting-item"><div><b>Аккаунт</b><small id="accountInfo">Локальное хранилище</small></div><button class="secondary-button" id="logoutButton" type="button">Выход</button></div></div></section></div>
+  <div class="toast-stack" id="toasts" role="status" aria-live="polite"></div>
+</body>
+</html>

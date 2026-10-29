@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 720" preserveAspectRatio="xMidYMid slice">
+ <defs><linearGradient id="sky" x1="0" x2=".8" y1="1" y2="0"><stop stop-color="#071a48"/><stop offset=".4" stop-color="#253575"/><stop offset=".72" stop-color="#8c5297"/><stop offset="1" stop-color="#f7a18d"/></linearGradient><linearGradient id="peak" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#163374"/><stop offset="1" stop-color="#061c4c"/></linearGradient><linearGradient id="lower" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#0c2c63"/><stop offset="1" stop-color="#03183b"/></linearGradient><radialGradient id="glow"><stop stop-color="#ffa89b" stop-opacity=".45"/><stop offset="1" stop-color="#ffa89b" stop-opacity="0"/></radialGradient></defs>
+ <rect width="1600" height="720" fill="url(#sky)"/><ellipse cx="1350" cy="230" rx="470" ry="290" fill="url(#glow)"/>
+ <g fill="#fff" opacity=".55"><circle cx="120" cy="100" r="2"/><circle cx="330" cy="80" r="1.4"/><circle cx="620" cy="125" r="1.2"/><circle cx="910" cy="64" r="1.4"/><circle cx="1060" cy="140" r="1.6"/><circle cx="1445" cy="75" r="1.3"/><circle cx="1520" cy="156" r="1"/></g>
+ <path d="M0 540 130 467 230 505 410 330 490 390 655 195 790 330 860 280 1080 460 1260 365 1380 460 1550 375 1600 405V720H0Z" fill="#34437e" opacity=".7"/>
+ <path d="m460 366 195-171 137 138-90-50-49-45-57 84-55-16Z" fill="#7391bd" opacity=".55"/>
+ <path d="M0 610 182 503 303 551 515 411 630 485 846 301 1041 500 1210 405 1380 515 1530 448 1600 502V720H0Z" fill="url(#peak)"/>
+ <path d="m762 387 84-86 86 108-74-43-31 33-19-35Z" fill="#6d8db7" opacity=".55"/>
+ <path d="M0 635 160 564 290 607 440 531 660 630 865 514 1045 600 1238 516 1370 580 1490 525 1600 558V720H0Z" fill="url(#lower)"/>
+ <path d="M0 705 120 625 213 688 305 633 420 704 610 604 730 690 965 600 1100 700 1290 601 1450 688 1600 620V720H0Z" fill="#041736" opacity=".9"/>
+ <g fill="#03152f" opacity=".8"><path d="m140 624-11 51h22zM170 621l-14 61h28zM198 639l-10 46h20zM1375 601l-15 68h30zM1404 587l-20 91h40zM1444 607l-16 78h32zM1480 626l-11 59h22z"/></g>
+</svg>
